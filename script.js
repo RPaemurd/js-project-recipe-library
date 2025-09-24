@@ -23,20 +23,39 @@ const processRecipeData = (result) => {
     const recipe = result.recipes[0]; //Hämtar ut hela första receptobjektet 
 
     //Sparar ner alla egenskaper som jag skall använda 
+    const imgUrl = recipe.image; 
     const title = recipe.title;
     const cuisines = recipe.cuisines; //array
     const time = recipe.readyInMinutes; //tid i minuter
     const ingredients = recipe.extendedIngredients; // array
-    
+
+    /* console.log("img", imgUrl);
     console.log("Title:", title);
     console.log("Cuisines:", cuisines);
     console.log("Time:", time);
-    console.log("Ingredients:", ingredients);
+    console.log("Ingredients:", ingredients); */
+
+    const imageElement = document.getElementById('recipe-img');
+    imageElement.src = imgUrl;
+
+    const recipeTitleElement = document.getElementById("recipeTitle");
+    recipeTitleElement.innerText = title;
+
+    const recipeCuisines = document.getElementById("recipe-cuisine");
+    recipeCuisines.innerText = cuisines;
+
+    const recipeTime = document.getElementById("recipe-time");
+    recipeTime.innerHTML = time;
+/* 
+    const recipeIngredients = document.getElementById("recipe-ingredients")
+    recipeIngredients.innerText = extendedIngredients; */
 
     console.log("Complete object:", result); // Loggar hela resultatet för överblick
   } else {
     console.log("Could not process prescription data, result was empty or invalid");
   }
+
+
 };
 
   const savedRecipeJSON = localStorage.getItem("savedRecipe");
@@ -59,6 +78,9 @@ if (savedRecipeJSON) {
     })
     .catch(error => console.log('error', error));
 }
+
+
+
   
 
 
