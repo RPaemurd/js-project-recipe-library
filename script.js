@@ -1,87 +1,125 @@
-
-//Inställningar
-//Göra en GET-response för att få recepten
-//Sätta våra headers och parameters likt en adress lapp
-const myHeaders = new Headers(); //Skapar ett headers objekt
-myHeaders.append('x-api-key','8c1eb74ea4924057b8ad6bf0c4c9219c');
+// ==================================================
+// Settings & Constants
+// API keys, URLs, and initial setup variables
+// ==================================================
+const myHeaders = new Headers();
+myHeaders.append('x-api-key', '8c1eb74ea4924057b8ad6bf0c4c9219c');
 myHeaders.append('Content-Type', 'application/json')
 
-//Vad vi ska hämta med våran adress
 const requestOptions = {
     method: 'GET',
     redirect: 'follow',
     headers: myHeaders
 };
 
-const URL = 'https://api.spoonacular.com/recipes/random?number=1'
+const URL = 'https://api.spoonacular.com/recipes/random?number=100'
 
-// En funktion för att hantera och logga receptdata.
-// Denna funktion saknades i din kod, vilket orsakade "processRecipeData is not defined".
-const processRecipeData = (result) => {
-  // Säkerställ att vi har ett giltigt resultat med recept
-  if (result && result.recipes && result.recipes.length > 0) {
-    const recipe = result.recipes[0]; //Hämtar ut hela första receptobjektet 
+document.addEventListener("DOMContentLoaded", () => {
 
-    //Sparar ner alla egenskaper som jag skall använda 
-    const imgUrl = recipe.image; 
+const randomBtn = document.getElementById("random-recipe");
+const cardOverlay = document.getElementById("card-overlay");
+const cardContent = document.getElementById("card-content");
+let allRecipes = []; 
+
+
+// ==================================================
+// Functions
+// ==================================================
+
+const createCardHTML = (recipe) => {
+    const imgUrl = recipe.image;
     const title = recipe.title;
-    const cuisines = recipe.cuisines; //array
-    const time = recipe.readyInMinutes; //tid i minuter
-    const ingredients = recipe.extendedIngredients; // array
+    // En tom array som standard om cuisines saknas, för att undvika fel med .join()
+    const cuisines = recipe.cuisines || []; 
+    const time = recipe.readyInMinutes;
+    const ingredients = recipe.extendedIngredients || [];
 
-    /* console.log("img", imgUrl);
-    console.log("Title:", title);
-    console.log("Cuisines:", cuisines);
-    console.log("Time:", time);
-    console.log("Ingredients:", ingredients); */
+    const ingredientsHTML = ingredients.map(ingredient => {
+        return `<li>${ingredient.original}</li>`;
+    }).join('');
 
-    const imageElement = document.getElementById('recipe-img');
-    imageElement.src = imgUrl;
-
-    const recipeTitleElement = document.getElementById("recipeTitle");
-    recipeTitleElement.innerText = title;
-
-    const recipeCuisines = document.getElementById("recipe-cuisine");
-    recipeCuisines.innerText = cuisines;
-
-    const recipeTime = document.getElementById("recipe-time");
-    recipeTime.innerHTML = time;
-/* 
-    const recipeIngredients = document.getElementById("recipe-ingredients")
-    recipeIngredients.innerText = extendedIngredients; */
-
-    console.log("Complete object:", result); // Loggar hela resultatet för överblick
-  } else {
-    console.log("Could not process prescription data, result was empty or invalid");
-  }
-
-
+    return `
+        <article class="recipe-card">
+            <img src="${imgUrl}" alt="Bild på ${title}">
+            <div class="card-content">
+                <h2 class="recipe-title">${title}</h2>
+                <p class="recipe-cuisine">Cuisine: ${cuisines.join(', ')}</p>
+                <p class="recipe-time"> Time: ${time} minuter</p>
+                <h3>Ingredients:</h3>
+                <ul class="recipe-ingredients">
+                    ${ingredientsHTML}
+                </ul>
+            </div>
+        </article>
+    `;
 };
 
-  const savedRecipeJSON = localStorage.getItem("savedRecipe");
+
+const processRecipeData = (result) => {
+    if (result && result.recipes && result.recipes.length > 0) {
+        allRecipes = result.recipes;
+
+        const recipeContainer = document.getElementById("recipe-container");
+        recipeContainer.innerHTML = ''; // Clear previous results
+
+         allRecipes.forEach(recipe => {
+            const cardHTML = createCardHTML(recipe);
+            recipeContainer.innerHTML += cardHTML;
+        });
+
+        console.log("Complete object:", result);
+    } else {
+        console.log("Could not process recipe data, result was empty or invalid");
+    }
+};
+
+// Lyssna efter klick på "slumpa"-knappen
+randomBtn.addEventListener("click", () => {
+
+     // Gör inget om listan är tom
+    if (!allRecipes || allRecipes.length === 0) {
+
+        console.log("Inga recept att slumpa fram än.");
+        return; 
+    }
+
+    const randomIndex = Math.floor(Math.random() * allRecipes.length);
+    const randomRecipe = allRecipes[randomIndex];
+
+    const cardHTML = createCardHTML(randomRecipe);
+    cardContent.innerHTML = cardHTML;
+
+    cardOverlay.classList.add("visible");
+});
+
+// Lyssna efter klick på den mörka bakgrunden, för att stänga
+cardOverlay.addEventListener("click", (event) => {
+    // Att man klickade på själva overlayen, och inte på innehållet
+    if (event.target === cardOverlay) {
+        cardOverlay.classList.remove("visible");
+    }
+});
+
+
+// ==================================================
+// Initialization
+// This is the code that actually runs when the page loads.
+// ==================================================
+
+const savedRecipeJSON = localStorage.getItem("savedRecipe");
 
 if (savedRecipeJSON) {
-  console.log("Fetching a recipe from localStorage...");
-  const savedRecipe = JSON.parse(savedRecipeJSON); // Konvertera tillbaka från text till objekt
-  processRecipeData(savedRecipe);
+    console.log("Fetching a recipe from localStorage...");
+    const savedRecipe = JSON.parse(savedRecipeJSON);
+    processRecipeData(savedRecipe); // Calling the function
 } else {
-  console.log("Fetching another recipe from the API...");
-  fetch(URL, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      // Spara det nya receptet i localStorage för framtida användning
-      // konvertera objektet till en textsträng med JSON.stringify
-      localStorage.setItem('savedRecipe', JSON.stringify(result));
-      
-      // Använder datan
-      processRecipeData(result);
-    })
-    .catch(error => console.log('error', error));
+    console.log("Fetching another recipe from the API...");
+    fetch(URL, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            localStorage.setItem("savedRecipe", JSON.stringify(result));
+            processRecipeData(result); // Calling the function
+        })
+        .catch(error => console.log("error", error));
 }
-
-
-
-  
-
-
-
+}); 

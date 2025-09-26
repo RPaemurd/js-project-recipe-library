@@ -20,7 +20,6 @@ body{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    background-color:orangered;
 }
 
 .container{
@@ -49,7 +48,7 @@ h1{
 .select-section button{
     font-weight: 500;
     font-style: medium;
-    padding: 0.398rem 0.7rem 0.398rem 0.7rem;
+    padding: 0.65rem 1rem 0.65rem 1rem;
     border-radius: 19px;
     border: none;
     font-family: var(--ff-);
@@ -69,18 +68,25 @@ button:hover{
     border: 2px solid var(--clr-primary);
 }
 
+.filter-btn:active{
+    background-color: var(--clr-primary);
+    color: white;
+}
+
+.sort-btn:active {
+    background-color: var(--clr-secondary); /* Or any other color variable you have */
+    color: white;
+}
 
 .recipe-card{
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     width: 300px;
-    height: 621px;
+    min-height: 621px;
     border-radius: 16px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(233, 233, 233, 1);
-    background-color: peachpuff;
+    border: 1px solid rgb(179, 179, 179);
 }
 
 .recipe-card:hover{
@@ -89,34 +95,67 @@ button:hover{
     border: 2px solid var(--clr-primary);
 }
 
-.recipe-information{
-    border-top: 1px solid rgba(233, 233, 233, 1);
-    border-bottom: 1px solid rgba(233, 233, 233, 1);
-    padding: 1rem 0 1rem 0;
+.recipe-card h2{
+    padding-top: 1rem;
 }
-.recipe-information p{
+
+.recipe-cuisine{
+    padding-top: 1rem;
+}
+
+.recipe-time{
+    padding-bottom: 1rem;
+}
+
+.recipe-ingredients{
+    margin-top: 0.5rem;
+    list-style-type: none;
+    
+}
+
+.recipe-ingredients li{
+    font-weight: 500;
+    font-style: medium;
+    font-size: 1rem;
+}
+
+.card-overlay{
+    display: none;
+    justify-content: center;
+    align-items: center; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); 
+}
+
+.card-overlay.visible{
     display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
-/* 
+
+.card-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 80%; 
+    height: 80%; 
+    overflow-y: auto; 
+}
+
 @media (min-width: 600px) {
 
-    .container{
+    .recipe-container{
         display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
     }
 
     h1{
         font-size: 54px;
-        padding: 16px;
     }
 
-    .recipe-card{
-        margin-left: auto;
-    }
 
-    .container{
-        display: flex;
-
-    }
-}  */
+} 
