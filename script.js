@@ -2,6 +2,9 @@
 // Settings & Constants
 // API keys, URLs, and initial setup variables
 // ==================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
 const myHeaders = new Headers();
 myHeaders.append('x-api-key', '8c1eb74ea4924057b8ad6bf0c4c9219c');
 myHeaders.append('Content-Type', 'application/json')
@@ -14,8 +17,6 @@ const requestOptions = {
 
 const URL = 'https://api.spoonacular.com/recipes/random?number=100'
 
-document.addEventListener("DOMContentLoaded", () => {
-
 const randomBtn = document.getElementById("random-recipe");
 const cardOverlay = document.getElementById("card-overlay");
 const cardContent = document.getElementById("card-content");
@@ -26,7 +27,8 @@ let allRecipes = [];
 // Functions
 // ==================================================
 
-const createCardHTML = (recipe) => {
+//Funktion för de små korten
+const createGridCardHTML = (recipe) => {
     const imgUrl = recipe.image;
     const title = recipe.title;
     // En tom array som standard om cuisines saknas, för att undvika fel med .join()
@@ -44,7 +46,7 @@ const createCardHTML = (recipe) => {
             <div class="card-content">
                 <h2 class="recipe-title">${title}</h2>
                 <p class="recipe-cuisine">Cuisine: ${cuisines.join(', ')}</p>
-                <p class="recipe-time"> Time: ${time} minuter</p>
+                <p class="recipe-time"> Cooking Time: ${time} minuter</p>
                 <h3>Ingredients:</h3>
                 <ul class="recipe-ingredients">
                     ${ingredientsHTML}
@@ -59,11 +61,13 @@ const processRecipeData = (result) => {
     if (result && result.recipes && result.recipes.length > 0) {
         allRecipes = result.recipes;
 
+         console.log("Alla recept:", allRecipes);
+
         const recipeContainer = document.getElementById("recipe-container");
         recipeContainer.innerHTML = ''; // Clear previous results
 
          allRecipes.forEach(recipe => {
-            const cardHTML = createCardHTML(recipe);
+            const cardHTML = createGridCardHTML(recipe);
             recipeContainer.innerHTML += cardHTML;
         });
 
