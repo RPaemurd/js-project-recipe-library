@@ -68,7 +68,7 @@ h1{
     /* transform: translateY(-1px);  */
 }
 
-.filter-btn:active{
+.filter button.active{
     background-color: var(--clr-primary);
     color: white;
 }

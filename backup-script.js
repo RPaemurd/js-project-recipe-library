@@ -29,6 +29,9 @@ const vegBtn = document.getElementById("veg-btn");
 const veganBtn = document.getElementById("vegan-btn");
 const allBtn = document.getElementById("filter-btn"); 
 
+// Get all buttons in the filter section into a single list
+const filterButtons = document.querySelectorAll(".filter button")
+
 // An empty list that will act as our local "database" for all recipes
 let allRecipes = [];
 
@@ -45,7 +48,7 @@ const displayRecipes = (recipesToShow) => {
     const allCardsHTML = recipesToShow.map(recipe => createGridCardHTML(recipe)).join('');
     recipeContainer.innerHTML = allCardsHTML;
 
-    console.log(`Visar nu ${recipesToShow.length} recept.`);
+    /* console.log(`Visar nu ${recipesToShow.length} recept.`); */
 };
 
 // A function for building the HTML code for a small recipe card in the grid
@@ -64,10 +67,10 @@ const createGridCardHTML = (recipe) => {
     // Returns the finished HTML code as a text string
     return `
         <article class="recipe-card">
-            <img src="${imgUrl}" alt="Bild på ${title}">
+            <img src="${imgUrl}" alt="Picture of ${title}">
             <div class="grid-card-content">
                 <h2 class="recipe-title">${title}</h2>
-                <p class="recipe-time"> Cooking Time: ${time} minuter</p>
+                <p class="recipe-time"> Cooking Time: ${time} minutes</p>
                 <p> Diets: ${diets}</p>
                 <h3>Ingredients:</h3>
                 <ul class="recipe-ingredients">
@@ -94,9 +97,9 @@ const createOverlayCardHTML = (recipe) => {
 
     return `
         <div class="overlay-card-content">
-            <img src="${imgUrl}" alt="Bild på ${title}">
+            <img src="${imgUrl}" alt="Picture of ${title}">
             <h2>${title}</h2>
-            <p><strong>Time to cook:</strong> ${time} minuter</p>
+            <p><strong>Time to cook:</strong> ${time} minutes</p>
             <p> Diets: ${diets}</p>
             <h3>Ingredients:</h3>
             <ul>
@@ -113,7 +116,7 @@ const processRecipeData = (result) => {
     if (result && result.recipes && result.recipes.length > 0) {
         // Saves all recipes to our local "database" 
         allRecipes = result.recipes;
-        console.log("Alla recept:", allRecipes);
+        console.log("All Recipes:", allRecipes);
 
         // Uses our "display engine" to show all recipes from the start
         displayRecipes(allRecipes);
@@ -149,13 +152,22 @@ cardOverlay.addEventListener("click", (event) => {
     }
 });
 
+const updateActiveButton = (clickedButton) => {
+
+    filterButtons.forEach(button => {
+        button.classList.remove("active");
+    });
+    clickedButton.classList.add("active");
+};
+
 // ==================================================
 // Event Listeners for Filtering
 // ==================================================
 
 // Listens for clicks on the "Gluten free" button
 glutenBtn.addEventListener("click", () => {
-    console.log("Filtrerar på 'gluten free'");
+    updateActiveButton(glutenBtn); // Set this button as active
+    console.log("Filtering for 'gluten free'");
     // Creates a new list that only contains recipes where the 'diets' list includes 'gluten free'
     const filtered = allRecipes.filter(recipe => recipe.diets.includes('gluten free'));
     
@@ -165,20 +177,23 @@ glutenBtn.addEventListener("click", () => {
 
 // Listens for clicks on the "Dairy free" button
 dairyBtn.addEventListener("click", () => {
-    console.log("Filtrerar på 'dairy free'");
+    updateActiveButton(dairyBtn);
+    console.log("Filtering for 'dairy free'");
     const filtered = allRecipes.filter(recipe => recipe.diets.includes('dairy free'));
     displayRecipes(filtered);
 });
 
 // Listens for clicks on the "Vegan" button
 veganBtn.addEventListener("click", () => {
+    updateActiveButton(veganBtn); 
     const filtered = allRecipes.filter(recipe => recipe.diets.includes("vegan"))
     displayRecipes(filtered);
 });
 
 // Listens for clicks on the "Vegetarian" button
 vegBtn.addEventListener("click", () => {
-    console.log("Filtrerar på 'vegetarian'");
+    updateActiveButton(vegBtn);
+    console.log("Filtering for 'vegetarian'");
     // Some recipes use 'vegetarian: true' instead of in the 'diets' list, so we check that property
     const filtered = allRecipes.filter(recipe => recipe.vegetarian === true); 
     displayRecipes(filtered);
@@ -186,7 +201,8 @@ vegBtn.addEventListener("click", () => {
 
 // Listens for clicks on the "All" button to reset the filter
 allBtn.addEventListener("click", () => {
-    console.log("Visar alla recept igen");
+    updateActiveButton(allBtn); 
+    console.log("Showing all recipes again");
     // Calls the "display engine" with the entire, unfiltered allrecipes list
     displayRecipes(allRecipes);
 });
