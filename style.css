@@ -30,7 +30,8 @@ body{
 h1{
     font-style: bold;
     color: var(--clr-primary);
-}
+/*     margin-left: 1rem;
+ */}
 
 h3{
     border-top: 1px solid rgba(0, 0, 0, 0.527);
@@ -39,7 +40,7 @@ h3{
 }
 
 header{
-    margin-left: 1rem;
+    margin-left: 2.5rem;
     margin-top: 1rem;
 }
 
@@ -50,8 +51,8 @@ header{
 
 .select-section{
     margin-top: 1rem;
-    margin-left: 1rem;
-}
+/*     margin-left: 1rem;
+ */}
 
 .select-section h2{
     margin-top:0.5rem;
@@ -211,19 +212,25 @@ button:hover{
 
 @media (min-width: 600px) {
 
+    header{
+        margin-left: 1.6rem;
+    }
+
+    h1{
+        font-size: 54px;
+        margin: 0;
+    }
+
     .select-section{
         display: flex;
         gap: 1rem;
+        margin-left: 0.2rem;
     }
 
     .recipe-container{
         display: flex;
         flex-wrap: wrap;
         gap: 0.8rem;
-    }
-
-    h1{
-        font-size: 54px;
     }
 
     .card-content{
