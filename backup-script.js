@@ -155,6 +155,7 @@ cardOverlay.addEventListener("click", (event) => {
     }
 });
 
+//activates the class "active", witch removes and ads the colors for the clicked buttons
 const updateActiveButton = (clickedButton) => {
 
     filterButtons.forEach(button => {
@@ -163,6 +164,7 @@ const updateActiveButton = (clickedButton) => {
     clickedButton.classList.add("active");
 };
 
+//activates the class "active", witch removes and ads the colors for the clicked buttons
 const updateActiveSortButton = (clickedButton) => {
 
     sortButtons.forEach(button => {
