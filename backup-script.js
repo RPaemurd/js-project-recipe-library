@@ -44,14 +44,19 @@ let allRecipes = [];
 
 // A "display engine" that can take any list of recipes and show it on the screen
 const displayRecipes = (recipesToShow) => {
+
+    // Finds the container for all the recipe cards
     const recipeContainer = document.getElementById("recipe-container");
-    recipeContainer.innerHTML = ''; // Always clears the screen first to make room for new cards
+
+    if (!recipesToShow || recipesToShow.length === 0) {
+        recipeContainer.innerHTML = '<p class="empty-state-message">Sorry, no recipes match your filter. Please try another one!</p>';
+        return; // terminate the function
+    }
 
     // Builds all the cards in memory first and then adds them to the page all at once
     const allCardsHTML = recipesToShow.map(recipe => createGridCardHTML(recipe)).join('');
     recipeContainer.innerHTML = allCardsHTML;
 
-    /* console.log(`Visar nu ${recipesToShow.length} recept.`); */
 };
 
 // A function for building the HTML code for a small recipe card in the grid
