@@ -66,13 +66,12 @@ const createGridCardHTML = (recipe) => {
     const time = recipe.readyInMinutes;
     const diets = recipe.diets;
     const ingredients = recipe.extendedIngredients || []; // Use an empty list if ingredients are missing
-
+    //Go through every ingredient in the list.. 
     const ingredientsHTML = ingredients.map(ingredient => {
-        return `<li>${ingredient.original}</li>`;
-    }).join('');
+        return `<li>${ingredient.original}</li>`; //..and make an HTML-list <li> for each item
+    }).join(''); //then paste them together in one string
 
-
-    // Returns the finished HTML code as a text string
+    //Building the HTML were we paste the variables that was created above ${...}
     return `
         <article class="recipe-card">
             <img src="${imgUrl}" alt="Picture of ${title}">
@@ -92,17 +91,18 @@ const createGridCardHTML = (recipe) => {
 // A function for building the HTML for the large, detailed card in the popup window
 const createOverlayCardHTML = (recipe) => {
     const imgUrl = recipe.image;
-    const title = recipe.title;
-/*     const cuisines = recipe.cuisines || []; 
- */ const time = recipe.readyInMinutes;
+    const title = recipe.title;     
+    const time = recipe.readyInMinutes;
     const diets = recipe.diets;
-    const ingredients = recipe.extendedIngredients || [];
+    
+    const ingredients = recipe.extendedIngredients || [];//the list with ingrediens, if its empty make an empty list to avoid errors
     const instructions = recipe.instructions;
-
+    //Go through every ingredient in the list.. 
     const ingredientsHTML = ingredients.map(ingredient => {
-        return `<li>${ingredient.original}</li>`;
-    }).join('');
+        return `<li>${ingredient.original}</li>`; //..and make an HTML-list <li> for each item
+    }).join(''); //Then paste them together in one string
 
+    //Building the HTML were we paste the variables that was created above ${...}
     return `
         <div class="overlay-card-content">
             <img src="${imgUrl}" alt="Picture of ${title}">
@@ -137,8 +137,12 @@ const processRecipeData = (result) => {
 
 // Listens for clicks on the "random" button
 randomBtn.addEventListener("click", () => {
+    // First, a safety check to make sure there are recipes in our list
+    // If the list doesn't exist or is empty...
     if (!allRecipes || allRecipes.length === 0) {
+        // ...log a message to the console...
         console.log("No recipes available to choose from.");
+        // ...and stop the function here
         return; 
     }
 
@@ -162,19 +166,21 @@ cardOverlay.addEventListener("click", (event) => {
 
 //activates the class "active", witch removes and ads the colors for the clicked buttons
 const updateActiveButton = (clickedButton) => {
-
+    // First, remove the "active" class from all sort buttons
     filterButtons.forEach(button => {
         button.classList.remove("active");
     });
+    // Then, add the "active" class to the one that was just clicked
     clickedButton.classList.add("active");
 };
 
-//activates the class "active", witch removes and ads the colors for the clicked buttons
+//activates the class "active", witch removes and ads/removes the colors for the clicked buttons
 const updateActiveSortButton = (clickedButton) => {
-
+    // First, remove the "active" class from all sort buttons
     sortButtons.forEach(button => {
         button.classList.remove("active");
     });
+    // Then, add the "active" class to the one that was just clicked
     clickedButton.classList.add("active");
 };
 
