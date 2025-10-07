@@ -30,8 +30,17 @@ body{
 h1{
     font-style: bold;
     color: var(--clr-primary);
-    margin-top: 1rem;
+}
+
+h3{
+    border-top: 1px solid rgba(0, 0, 0, 0.527);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+header{
     margin-left: 1rem;
+    margin-top: 1rem;
 }
 
 .container{
@@ -79,7 +88,7 @@ h1{
     margin-top: 0.6rem;
 }
 
-.sort-btn:active {
+.sort button.active {
     background-color: var(--clr-secondary); /* Or any other color variable you have */
     color: white;
 }
@@ -103,7 +112,7 @@ button:hover{
 }
 
 .recipe-card{
-    background-color: pink;
+    /* background-color: pink; */
     margin-top: 1rem;
     width: 300px;
     min-height: 621px;
@@ -124,12 +133,19 @@ button:hover{
     padding-top: 1rem;
 }
 
-.recipe-cuisine{
-    padding-top: 1rem;
+.recipe-title{
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.473);
+}
+
+.diet-answer, 
+.time-answer{
+    font-weight: 400;
 }
 
 .recipe-time{
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
 }
 
 .recipe-ingredients{
@@ -210,10 +226,10 @@ button:hover{
         font-size: 54px;
     }
 
-   /*  .card-content{
+    .card-content{
         width: 800px;
     }
- */
+
     
 
 } 

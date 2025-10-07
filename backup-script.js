@@ -16,7 +16,7 @@ const requestOptions = {
 };
 
 // The address of the API we fetch data from
-const URL = 'https://api.spoonacular.com/recipes/random?number=100';
+const URL = 'https://api.spoonacular.com/recipes/random?number=30';
 
 // === Connecting JavaScript variables to HTML elements ===
 
@@ -28,9 +28,12 @@ const dairyBtn = document.getElementById("dairy-btn");
 const vegBtn = document.getElementById("veg-btn");
 const veganBtn = document.getElementById("vegan-btn");
 const allBtn = document.getElementById("filter-btn"); 
+const descenBtn = document.getElementById("descending-btn");
+const ascenBtn = document.getElementById("ascending-btn");
 
 // Get all buttons in the filter section into a single list
 const filterButtons = document.querySelectorAll(".filter button")
+const sortButtons = document.querySelectorAll(".sort button")
 
 // An empty list that will act as our local "database" for all recipes
 let allRecipes = [];
@@ -70,9 +73,9 @@ const createGridCardHTML = (recipe) => {
             <img src="${imgUrl}" alt="Picture of ${title}">
             <div class="grid-card-content">
                 <h2 class="recipe-title">${title}</h2>
-                <p class="recipe-time"> Cooking Time: ${time} minutes</p>
-                <p> Diets: ${diets}</p>
-                <h3>Ingredients:</h3>
+                <p class="recipe-time"> Cooking Time: <span class="time-answer">${time} minutes </span></p>
+                <p>Diets:<span class="diet-answer"> ${diets}</span></p>
+                <h3 class="ingredients-title">Ingredients:</h3>
                 <ul class="recipe-ingredients">
                     ${ingredientsHTML}
                 </ul>
@@ -98,10 +101,10 @@ const createOverlayCardHTML = (recipe) => {
     return `
         <div class="overlay-card-content">
             <img src="${imgUrl}" alt="Picture of ${title}">
-            <h2>${title}</h2>
-            <p><strong>Time to cook:</strong> ${time} minutes</p>
-            <p> Diets: ${diets}</p>
-            <h3>Ingredients:</h3>
+            <h2 class="recipe-title">${title}</h2>
+            <p class="recipe-time"> Cooking Time: <span class="time-answer">${time} minutes </span></p>
+            <p>Diets:<span class="diet-answer"> ${diets}</span></p>
+            <h3 class="ingredients-title">Ingredients:</h3>
             <ul>
                 ${ingredientsHTML}
             </ul>
@@ -160,6 +163,14 @@ const updateActiveButton = (clickedButton) => {
     clickedButton.classList.add("active");
 };
 
+const updateActiveSortButton = (clickedButton) => {
+
+    sortButtons.forEach(button => {
+        button.classList.remove("active");
+    });
+    clickedButton.classList.add("active");
+};
+
 // ==================================================
 // Event Listeners for Filtering
 // ==================================================
@@ -207,9 +218,26 @@ allBtn.addEventListener("click", () => {
     displayRecipes(allRecipes);
 });
 
+descenBtn.addEventListener("click", () => {
+    updateActiveSortButton(descenBtn);
+    console.log("Sorting recipes by descending cooking time");
+    // Skapa en kopia av listan och sortera den
+    const sortedRecipes = [...allRecipes].sort((a, b) => b.readyInMinutes - a.readyInMinutes);
+    displayRecipes(sortedRecipes);
+});
+
+ascenBtn.addEventListener("click", () => {
+    updateActiveSortButton(ascenBtn);
+    console.log("Sorting recipes by ascending cooking time");
+    // Skapa en kopia av listan och sortera den
+    const sortedRecipes = [...allRecipes].sort((a, b) => a.readyInMinutes - b.readyInMinutes);
+    displayRecipes(sortedRecipes);
+});
+
+
 // ==================================================
 // Initialization
-// This is the code that actually runs when the page loads.
+// This is the code that runs when the page loads
 // ==================================================
 
 // Checks if there are saved recipes in the browser's memory (localStorage)
@@ -224,14 +252,31 @@ if (savedRecipeJSON) {
 } else {
     console.log("Fetching new recipes from the API..."); // Make a call to the API
     fetch(URL, requestOptions)
-        .then(response => response.json()) // Converts the response to a JavaScript object
+        .then(response => {
+            // Om anropet INTE gick bra (t.ex. status 404 eller 402)
+            if (!response.ok) {
+                // Om felet är specifikt "API limit reached"
+                if (response.status === 402) {
+                    // Skapa ett specifikt felmeddelande
+                    throw new Error('API daily limit reached. Please try again tomorrow.');
+                }
+                // För alla andra serverfel
+                throw new Error('Could not fetch recipes from the server.');
+            }
+            // Om allt gick bra, fortsätt som vanligt
+            return response.json(); // Converts the response to a JavaScript object
+        })
         .then(result => {
             // When we have the data:
             // 1. Save it to the browser's memory for next time
-            localStorage.setItem("savedRecipe", JSON.stringify(result));
+            localStorage.setItem("savedRecipes", JSON.stringify(result.recipes));
             // 2. Use the data to build the page
             processRecipeData(result);
         })
-        .catch(error => console.log("error", error)); // Catches any errors during the API call
+        .catch(error => {
+            // Fånga felet vi skapade ovan och visa det för användaren
+            console.error("error", error);
+            document.getElementById("recipe-container").innerHTML = `<p class="error-message">${error.message}</p>`;
+        }); // Catches any errors during the API call
 }
 });
