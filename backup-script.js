@@ -221,7 +221,7 @@ allBtn.addEventListener("click", () => {
 descenBtn.addEventListener("click", () => {
     updateActiveSortButton(descenBtn);
     console.log("Sorting recipes by descending cooking time");
-    // Skapa en kopia av listan och sortera den
+    // Making a copy of allRecipes list and sorting it
     const sortedRecipes = [...allRecipes].sort((a, b) => b.readyInMinutes - a.readyInMinutes);
     displayRecipes(sortedRecipes);
 });
@@ -229,7 +229,7 @@ descenBtn.addEventListener("click", () => {
 ascenBtn.addEventListener("click", () => {
     updateActiveSortButton(ascenBtn);
     console.log("Sorting recipes by ascending cooking time");
-    // Skapa en kopia av listan och sortera den
+    // Making a copy of allRecipes list and sorting it
     const sortedRecipes = [...allRecipes].sort((a, b) => a.readyInMinutes - b.readyInMinutes);
     displayRecipes(sortedRecipes);
 });
@@ -253,17 +253,17 @@ if (savedRecipeJSON) {
     console.log("Fetching new recipes from the API..."); // Make a call to the API
     fetch(URL, requestOptions)
         .then(response => {
-            // Om anropet INTE gick bra (t.ex. status 404 eller 402)
+            // If the response did not go wel ( status 402)
             if (!response.ok) {
-                // Om felet är specifikt "API limit reached"
+                // If the error is specifically "API limit reached"
                 if (response.status === 402) {
-                    // Skapa ett specifikt felmeddelande
+                    // Error message
                     throw new Error('API daily limit reached. Please try again tomorrow.');
                 }
-                // För alla andra serverfel
+                // Other errors
                 throw new Error('Could not fetch recipes from the server.');
             }
-            // Om allt gick bra, fortsätt som vanligt
+            // If everyhting went well
             return response.json(); // Converts the response to a JavaScript object
         })
         .then(result => {
@@ -274,7 +274,7 @@ if (savedRecipeJSON) {
             processRecipeData(result);
         })
         .catch(error => {
-            // Fånga felet vi skapade ovan och visa det för användaren
+            // Catch the error created above and show it to the user
             console.error("error", error);
             document.getElementById("recipe-container").innerHTML = `<p class="error-message">${error.message}</p>`;
         }); // Catches any errors during the API call
