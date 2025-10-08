@@ -70,14 +70,13 @@ header{
     border-radius: 19px;
     border: none;
     font-family: var(--ff-);
-    /* transform: translateY(-1px);  */
+    border: 2px solid transparent;
 }
 
 
 .filter button{
     background-color: var(--clr-primary-1);
     color: var(--clr-primary);
-    /* transform: translateY(-1px);  */
 }
 
 .filter button.active{
@@ -88,7 +87,7 @@ header{
 .sort button{
     background-color: var(--clr-secondary-1);
     color: var(--clr-primary);
-    margin-top: 0.6rem;
+    
 }
 
 .sort button.active {
@@ -97,7 +96,7 @@ header{
 }
 
 .random-section button{
-    margin-top: 0.6rem;
+    
 }
 
 button:hover{
@@ -115,7 +114,6 @@ button:hover{
 }
 
 .recipe-card{
-    /* background-color: pink; */
     margin-top: 1rem;
     width: 300px;
     min-height: 621px;
@@ -227,6 +225,7 @@ button:hover{
         display: flex;
         gap: 1rem;
         margin-left: 0.2rem;
+        align-items: flex-end;
     }
 
     .recipe-container{
