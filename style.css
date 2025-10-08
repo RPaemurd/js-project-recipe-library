@@ -1,119 +1,118 @@
-/* global settings panel for my CSS */
-:root{
+/* ==================================================
+   1. Global Styles & Variables
+   ================================================== */
+
+/* :root is a global settings panel for my CSS */
+:root {
     /* Colors */
     --clr-primary: rgba(0, 24, 164, 1);
     --clr-primary-1: rgba(204, 255, 226, 1);
     --clr-secondary: rgba(255, 101, 137, 1);
     --clr-secondary-1: rgba(255, 236, 234, 1);
 
-    --ff-: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: 700;
+    /* Font */
+    --ff-: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
 }
 
-/* selects ALL elements on the page */
-*{
+/* '*' selects ALL elements on the page for a basic reset */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 /* Basic styling for the entire page */
-body{
-    /* Ensures the page is always at least as tall as the screen */
+body {
     min-height: 100vh;
     font-family: var(--ff-);
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    /* Allows content to wrap to the next line if it doesn't fit */
     overflow-y: scroll;
-
+    /* Always show scrollbar to prevent layout shifts */
 }
 
-h1{
-    font-style: bold;
-    color: var(--clr-primary);
-/*     margin-left: 1rem;
- */}
+/* ==================================================
+   2. Main Layout & Header
+   ================================================== */
 
-h3{
-    border-top: 1px solid rgba(0, 0, 0, 0.527);
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-header{
-    margin-left: 2.5rem;
-    margin-top: 1rem;
-}
-
-.container{
+.container {
     max-width: 1300px;
     width: 100%;
 }
 
-.select-section{
+header {
+    margin-left: 2.5rem;
     margin-top: 1rem;
-/*     margin-left: 1rem;
- */}
+}
 
-.select-section h2{
-    margin-top:0.5rem;
+h1 {
+    font-style: bold;
+    color: var(--clr-primary);
+}
+
+/* ==================================================
+   3. Filter & Sort Section
+   ================================================== */
+
+.select-section {
+    margin-top: 1rem;
+}
+
+.select-section h2 {
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
 }
 
-/* styling for all buttons in the button section */
-.select-section button{
+/* General styling for all buttons in the filter/sort section */
+.select-section button {
     font-weight: 500;
     font-style: medium;
-    padding: 0.65rem 1rem 0.65rem 1rem;
+    padding: 0.65rem 1rem;
     border-radius: 19px;
-    border: none;
     font-family: var(--ff-);
     border: 2px solid transparent;
+    /* Transparent border prevents jumping on hover */
 }
 
-
-.filter button{
+.filter button {
     background-color: var(--clr-primary-1);
     color: var(--clr-primary);
 }
 
-.filter button.active{
+.sort button {
+    background-color: var(--clr-secondary-1);
+    color: var(--clr-primary);
+}
+
+/* States for buttons (hover, active) */
+button:hover {
+    border: 2px solid var(--clr-primary);
+}
+
+.filter button.active {
     background-color: var(--clr-primary);
     color: white;
 }
 
-.sort button{
-    background-color: var(--clr-secondary-1);
-    color: var(--clr-primary);
-    
-}
-
 .sort button.active {
-    background-color: var(--clr-secondary); /* Or any other color variable you have */
+    background-color: var(--clr-secondary);
     color: white;
 }
 
-.random-section button{
-    
-}
+/* ==================================================
+   4. Recipe Grid & Cards
+   ================================================== */
 
-button:hover{
-    border: 2px solid var(--clr-primary);
-}
-
-#vegan-btn{
-    margin-top: 0.5rem;
-}
-
-.recipe-container{
+.recipe-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-.recipe-card{
+.recipe-card {
     margin-top: 1rem;
     width: 300px;
     min-height: 621px;
@@ -124,120 +123,132 @@ button:hover{
     border: 1px solid rgb(179, 179, 179);
 }
 
-.recipe-card:hover{
-    transform: translateY(-1px); 
+.recipe-card:hover {
+    transform: translateY(-1px);
     box-shadow: 0px 0px 30px 0px rgba(0, 24, 164, 0.2);
     border: 2px solid var(--clr-primary);
 }
 
-.recipe-card h2{
+/* Content inside the recipe cards */
+.recipe-card h2 {
     padding-top: 1rem;
 }
 
-.recipe-title{
+.recipe-title {
     padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.473);
 }
 
-.diet-answer, 
-.time-answer{
-    font-weight: 400;
-}
-
-.recipe-time{
+.recipe-time {
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
 }
 
-.recipe-ingredients{
-    margin-top: 0.5rem;
-    list-style-type: none;   
+.diet-answer,
+.time-answer {
+    font-weight: 400;
 }
 
-.recipe-ingredients li{
+.recipe-card h3 {
+    border-top: 1px solid rgba(0, 0, 0, 0.527);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.recipe-ingredients {
+    margin-top: 0.5rem;
+    list-style-type: none;
+}
+
+.recipe-ingredients li {
     font-weight: 500;
     font-style: medium;
     font-size: 1rem;
 }
 
-.card-overlay{
+/* ==================================================
+   5. Overlay / Modal
+   ================================================== */
+
+.card-overlay {
     display: none;
+    /* Hidden by default */
     justify-content: center;
-    align-items: center; 
-    position: fixed; 
+    align-items: center;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px); 
+    backdrop-filter: blur(5px);
 }
 
-.card-overlay.visible{
+.card-overlay.visible {
     display: flex;
+    /* Made visible with JavaScript */
 }
 
 .card-content {
     background-color: rgb(243, 236, 236);
     padding: 1.5rem;
     border-radius: 10px;
-    width: 90%; 
-    height: 80%; 
-    overflow-y: auto; 
-
+    width: 90%;
+    height: 80%;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.overlay-card-content{
+/* Content inside the overlay */
+.overlay-card-content {
     width: 100%;
     max-width: 500px;
 }
 
-.overlay-card-content img{
+.overlay-card-content img {
     width: 100%;
     height: 300px;
     object-fit: cover;
 }
 
-.overlay-card-content h3{
+.overlay-card-content h3 {
     margin-top: 1rem;
     font-weight: 400;
 }
 
-.overlay-card-content p{
-     margin-top: 1rem;
+.overlay-card-content p {
+    margin-top: 1rem;
 }
 
-@media (min-width: 600px) {
+/* ==================================================
+   6. Responsive Styles (Media Queries)
+   ================================================== */
 
-    header{
+@media (min-width: 600px) {
+    header {
         margin-left: 1.9rem;
     }
 
-    h1{
+    h1 {
         font-size: 54px;
         margin: 0;
     }
 
-    .select-section{
+    .select-section {
         display: flex;
         gap: 1rem;
         margin-left: 0.2rem;
         align-items: flex-end;
+        /* Aligns filter/sort/random sections along the bottom */
     }
 
-    .recipe-container{
-        display: flex;
-        flex-wrap: wrap;
+    .recipe-container {
         gap: 0.8rem;
     }
 
-    .card-content{
+    .card-content {
         width: 800px;
     }
-
-    
-
-} 
+}

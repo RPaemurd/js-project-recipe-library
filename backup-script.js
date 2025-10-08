@@ -23,10 +23,10 @@ const URL = 'https://api.spoonacular.com/recipes/random?number=30';
 const randomBtn = document.getElementById("random-recipe");
 const cardOverlay = document.getElementById("card-overlay");
 const cardContent = document.getElementById("card-content");
+
 const glutenBtn = document.getElementById("gluten-btn");
 const dairyBtn = document.getElementById("dairy-btn");
 const vegBtn = document.getElementById("veg-btn");
-const veganBtn = document.getElementById("vegan-btn");
 const allBtn = document.getElementById("filter-btn"); 
 const descenBtn = document.getElementById("descending-btn");
 const ascenBtn = document.getElementById("ascending-btn");
@@ -204,14 +204,6 @@ dairyBtn.addEventListener("click", () => {
     updateActiveButton(dairyBtn);
     console.log("Filtering for 'dairy free'");
     const filtered = allRecipes.filter(recipe => recipe.diets.includes('dairy free'));
-    displayRecipes(filtered);
-});
-
-// Listens for clicks on the "Vegan" button
-veganBtn.addEventListener("click", () => {
-    updateActiveButton(veganBtn); 
-
-    const filtered = allRecipes.filter(recipe => recipe.vegan === true);
     displayRecipes(filtered);
 });
 
