@@ -25,6 +25,8 @@ body{
     justify-content: center;
     flex-wrap: wrap;
     /* Allows content to wrap to the next line if it doesn't fit */
+    overflow-y: scroll;
+
 }
 
 h1{
