@@ -210,7 +210,8 @@ dairyBtn.addEventListener("click", () => {
 // Listens for clicks on the "Vegan" button
 veganBtn.addEventListener("click", () => {
     updateActiveButton(veganBtn); 
-    const filtered = allRecipes.filter(recipe => recipe.diets.includes("vegan"))
+
+    const filtered = allRecipes.filter(recipe => recipe.vegan === true);
     displayRecipes(filtered);
 });
 
@@ -246,7 +247,6 @@ ascenBtn.addEventListener("click", () => {
     const sortedRecipes = [...allRecipes].sort((a, b) => a.readyInMinutes - b.readyInMinutes);
     displayRecipes(sortedRecipes);
 });
-
 
 // ==================================================
 // Initialization
