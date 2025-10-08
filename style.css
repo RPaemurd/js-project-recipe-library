@@ -77,6 +77,17 @@ h1 {
     /* Transparent border prevents jumping on hover */
 }
 
+.filter{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Forces the h2 to take up the whole width */
+.filter h2{
+    flex-basis: 100%;
+}
+
 .filter button {
     background-color: var(--clr-primary-1);
     color: var(--clr-primary);
@@ -227,6 +238,7 @@ button:hover {
    ================================================== */
 
 @media (min-width: 600px) {
+
     header {
         margin-left: 1.9rem;
     }
@@ -242,6 +254,11 @@ button:hover {
         margin-left: 0.2rem;
         align-items: flex-end;
         /* Aligns filter/sort/random sections along the bottom */
+    }
+
+    .filter{
+        flex-basis: 390px;
+        flex-grow: 0;
     }
 
     .recipe-container {
