@@ -5,7 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const myHeaders = new Headers();
-myHeaders.append('x-api-key', import.meta.env.API_KEY);
+myHeaders.append('x-api-key', '0c625ab60e6a40a1a4b6cc2e4a5fe9b0');
 // Tells the API that we want the data in JSON format
 myHeaders.append('Content-Type', 'application/json')
 
@@ -274,7 +274,7 @@ if (savedRecipeJSON) {
         .then(result => {
             // When we have the data:
             // 1. Save it to the browser's memory for next time
-            localStorage.setItem("savedRecipes", JSON.stringify(result.recipes));
+            localStorage.setItem("savedRecipes", JSON.stringify(result));
             // 2. Use the data to build the page
             processRecipeData(result);
         })
