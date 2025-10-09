@@ -110,10 +110,10 @@ const createOverlayCardHTML = (recipe) => {
             <p class="recipe-time"> Cooking Time: <span class="time-answer">${time} minutes </span></p>
             <p>Diets:<span class="diet-answer"> ${diets}</span></p>
             <h3 class="ingredients-title">Ingredients:</h3>
-            <ul>
+            <ul class="recipe-ingredients">
                 ${ingredientsHTML}
             </ul>
-            <p>${instructions}</p>
+            <p class="recipe-instructions">${instructions}</p>
         </div>
     `;
 };

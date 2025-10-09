@@ -160,7 +160,8 @@ button:hover {
     font-weight: 400;
 }
 
-.recipe-card h3 {
+.recipe-card h3,
+.overlay-card-content h3 {
     border-top: 1px solid rgba(0, 0, 0, 0.527);
     padding-top: 0.5rem;
     margin-top: 0.5rem;
@@ -224,12 +225,7 @@ button:hover {
     object-fit: cover;
 }
 
-.overlay-card-content h3 {
-    margin-top: 1rem;
-    font-weight: 400;
-}
-
-.overlay-card-content p {
+.recipe-instructions{
     margin-top: 1rem;
 }
 
