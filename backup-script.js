@@ -5,7 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
 const myHeaders = new Headers();
-myHeaders.append('x-api-key', '8c1eb74ea4924057b8ad6bf0c4c9219c');
+myHeaders.append('x-api-key', import.meta.env.API_KEY);
 // Tells the API that we want the data in JSON format
 myHeaders.append('Content-Type', 'application/json')
 
