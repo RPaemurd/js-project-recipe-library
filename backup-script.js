@@ -12,7 +12,7 @@ myHeaders.append('Content-Type', 'application/json')
 const requestOptions = {
     method: 'GET', // We want to GET (fetch) data
     redirect: 'follow',
-    headers: myHeaders
+    headers: myHeaders // API-key sends as a HTTP-header, more safe without the key in the URL
 };
 
 // The address of the API we fetch data from
@@ -48,9 +48,11 @@ const displayRecipes = (recipesToShow) => {
     // Finds the container for all the recipe cards
     const recipeContainer = document.getElementById("recipe-container");
 
+    //if (recipesToShow) is flase, undefined - length === 0, checking the list, if it contains any recipes
+    // || = if anyone of these two things is true - show empty-state-message
     if (!recipesToShow || recipesToShow.length === 0) {
         recipeContainer.innerHTML = '<p class="empty-state-message">Sorry, no recipes match your filter. Please try another one!</p>';
-        return; // terminate the function
+        return; // terminate the function otherwise it would runt map() with an empty list
     }
 
     // Builds all the cards in memory first and then adds them to the page all at once
